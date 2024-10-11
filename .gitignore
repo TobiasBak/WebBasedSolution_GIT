@@ -1,1 +1,9 @@
 /.metadata/
+**/target/
+**/xtend-gen/
+
+.idea
+
+
+dk.sdu.bdd.xtext.parent/dk.sdu.bdd.xtext.ide/target/
+/dk.sdu.bdd.xtext.parent/dk.sdu.bdd.xtext.ide/target
