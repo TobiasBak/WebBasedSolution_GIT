@@ -1,0 +1,53 @@
+model robotic_domain
+
+imperative entity robot { 
+    properties: position , speed 
+}
+
+imperative entity gripper { 
+    states: closed , opened 
+ 
+}      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    
+          
+           
+           
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bddDsl" nsURI="http://www.sdu.dk/bdd/xtext/BddDsl" nsPrefix="bddDsl">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelRefs" upperBound="-1"
+        eType="#//ModelRef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declarativeEntityDef" upperBound="-1"
+        eType="#//DeclarativeEntityDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imperativeEntityDef" upperBound="-1"
+        eType="#//ImperativeEntityDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
+        eType="#//Scenario" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelRef" eType="#//Model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superEntities" unique="false"
+        upperBound="-1" eType="#//DeclarativeEntityDef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//ActionDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//StateDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//PropertyDef" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superEntities" unique="false"
+        upperBound="-1" eType="#//ImperativeEntityDef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//ImperativeActionDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//ImperativeStateDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//ImperativePropertyDef" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeActionDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="argument" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="argument" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateDef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postive" eType="#//StateName"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negative" eType="#//StateName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateName">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeStateDef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postive" eType="#//ImperativeStateName"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negative" eType="#//ImperativeStateName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeStateName">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativePropertyDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scenario">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scenarioName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preStateE" eType="#//DeclarativeScenarioState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imperative1" eType="#//ImperativeScenario"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionE" eType="#//DeclarativeScenarioAction"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imperative2" eType="#//ImperativeScenario"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preStateE1" eType="#//DeclarativeScenarioState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imperative3" eType="#//ImperativeScenario"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeScenario">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preState" eType="#//ImperativeScenarioState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//ImperativeScenarioAction"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postState" eType="#//ImperativeScenarioState"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeScenarioState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="andStates" upperBound="-1"
+        eType="#//DeclarativeScenarioStateAnd" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeScenarioStateAnd">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeScenarioState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="andStates" upperBound="-1"
+        eType="#//ImperativeScenarioStateAnd" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeScenarioStateAnd">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeScenarioAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="andActions" upperBound="-1"
+        eType="#//DeclarativeScenarioActionAnd" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeScenarioActionAnd">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeScenarioAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="andActions" upperBound="-1"
+        eType="#//ImperativeScenarioActionAnd" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeScenarioActionAnd">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityRef" eSuperTypes="#//DeclarativeEntityOrPropertyRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//ActionDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeActionRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//ImperativeActionDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativePropertyRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//ImperativePropertyDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityOrPropertyRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityStatePhrase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//StateName"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityStatePhraseWithProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//StateName"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityStatePhrase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//ImperativeStateName"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityStatePhraseWithProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//ImperativeStateName"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//ImperativePropertyRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityPropertyStatePhrase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toBeWord" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityPropertyStatePhrase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//ImperativePropertyRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toBeWord" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerbAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//ActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity3" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionRef" eType="#//ActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//DeclarativeEntityOrPropertyRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclarativeEntityPropertyAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionRef" eType="#//ActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//DeclarativeEntityRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeVerbAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//ImperativeActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity3" eType="#//ImperativeEntityRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionRef" eType="#//ImperativeActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//ImperativeEntityRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImperativeEntityPropertyAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//ImperativeEntityRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionRef" eType="#//ImperativeActionRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//ImperativePropertyRef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preposition2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity2" eType="#//ImperativeEntityRef"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

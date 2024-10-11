@@ -1,0 +1,30 @@
+model entities  
+
+declarative entity robot{
+    actions: pick, place 
+    states: running
+    properties: position, speed 
+}
+
+declarative entity button{
+    states: pressed, not_pressed
+}
+
+declarative entity user{ 
+    actions: press
+}  
+          
+    
+    
+    
+    
+    
+    
+    
+    
+         
+          
+          
+          
+             
+          
