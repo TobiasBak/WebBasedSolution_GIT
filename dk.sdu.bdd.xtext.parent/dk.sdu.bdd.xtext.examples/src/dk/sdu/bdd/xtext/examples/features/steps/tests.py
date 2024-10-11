@@ -29,15 +29,14 @@ def step_given(context, identifier: str, position, prep):
     print(f"Desired position: {desired_pos}")
     write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
 
-    demo_thread = LogWriterThread("Given thread")
-    demo_thread.run()
-
+    # demo_thread = LogWriterThread("Given thread")
+    # demo_thread.run()
 
     if context.receiver.getActualQ() != joint_positions or True:
         context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
         write_to_file(f"After moving {time.perf_counter()}")
         time.sleep(10)
-    demo_thread.stop()
+    # demo_thread.stop()
 
 
 def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
@@ -51,13 +50,13 @@ def write_to_log(strin: str, scenario_name: str, scenario_step: str):
 
 def soft_position_comparison(actual_position, desired_position, sensitivity: float = 0.01) -> bool:
     for i in range(len(actual_position)):
-        if not check_if_in_range(actual_position[i], desired_position[i], sensitivity):
-            return False
-    return True
+        if check_in_range_sensitivity(actual_position[i], desired_position[i], sensitivity):
+            return True
+    return False
 
 
-def check_if_in_range(actual_pos: float, desired_pos: float, sensitivity: float):
-    return abs(actual_pos - desired_pos) <= sensitivity
+def check_in_range_sensitivity(actual_pos: float, desired_pos: float, sensitivity: float):
+    return not abs(actual_pos - desired_pos) <= sensitivity
 
 
 @when('the robot "{identifier}" moves to position "{position}"')

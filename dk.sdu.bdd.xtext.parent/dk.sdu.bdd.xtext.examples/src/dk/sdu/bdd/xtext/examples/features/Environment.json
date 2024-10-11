@@ -2,7 +2,7 @@
     "Robot" : 
         {
             "name" : "Assembler",
-            "IP" : "192.168.12.40"
+            "IP" : "localhost"
         },
         
     "Positions" : {
