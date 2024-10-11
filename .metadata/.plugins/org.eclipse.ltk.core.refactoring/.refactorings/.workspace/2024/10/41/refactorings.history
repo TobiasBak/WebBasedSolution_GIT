@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete 8 resources" deleteContents="true" description="Delete 8 resources" element1="/dk.sdu.bdd.xtext.parent" element2="/dk.sdu.bdd.xtext.ui" element3="/dk.sdu.bdd.text.ide" element4="/dk.sdu.bdd.xtext.examples" element5="/dk.xtext.bdd.xtext.web" element6="/dk.sdu.bdd.text" element7="/dk.sdu.bdd.xtext.tests" element8="/dk.sdu.bdd.xtext.ui.tests" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="8" stamp="1728639726838"/>
-</session>
