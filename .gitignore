@@ -1,9 +1,11 @@
 /.metadata/
 **/target/
 **/xtend-gen/
+**/__pycache__/
 
 .idea
 
 
 dk.sdu.bdd.xtext.parent/dk.sdu.bdd.xtext.ide/target/
 /dk.sdu.bdd.xtext.parent/dk.sdu.bdd.xtext.ide/target
+dk.sdu.bdd.xtext.parent/dk.sdu.bdd.xtext.examples/src/dk/sdu/bdd/xtext/examples/featurestests.feature
