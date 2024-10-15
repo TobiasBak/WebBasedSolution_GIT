@@ -23,20 +23,22 @@ The context.receiver is of type RTDEReceiveInterface
 
 @given('the position {prep} the robot "{identifier}" is "{position}"')
 def step_given(context, identifier: str, position, prep):
+    demo_thread = LogWriterThread("Given thread", context.receiver)
+    demo_thread.start()
+
     joint_positions = env.get_position(position)
-    print(f"Joint positions: {joint_positions}")
+    # print(f"Joint positions: {joint_positions}")
     desired_pos = context.receiver.getActualQ()
-    print(f"Desired position: {desired_pos}")
+    # print(f"Desired position: {desired_pos}")
     write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
 
-    # demo_thread = LogWriterThread("Given thread")
-    # demo_thread.run()
 
     if context.receiver.getActualQ() != joint_positions or True:
         context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
         write_to_file(f"After moving {time.perf_counter()}")
-        time.sleep(10)
-    # demo_thread.stop()
+        # time.sleep(1)
+
+    demo_thread.stop()
 
 
 def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
@@ -56,26 +58,31 @@ def soft_position_comparison(actual_position, desired_position, sensitivity: flo
 
 
 def check_in_range_sensitivity(actual_pos: float, desired_pos: float, sensitivity: float):
+    write_to_file("")
     return not abs(actual_pos - desired_pos) <= sensitivity
 
 
 @when('the robot "{identifier}" moves to position "{position}"')
 def step_when(context, identifier: str, position):
-    print(f"Running When")
+    demo_thread = LogWriterThread("When thread", context.receiver)
+    demo_thread.start()
 
     joint_position = env.get_position(position)
     controller = context.controller
 
     controller.moveJ(joint_position, env.get_speed(), env.get_acceleration())
 
+    demo_thread.stop()
+
 
 @then('the position {prep} the robot "{identifier}" is "{position}"')
 def step_then(context, identifier: str, position, prep):
-    print(f"Running Then")
+    demo_thread = LogWriterThread("Then thread", context.receiver)
+    demo_thread.start()
 
     joint_positions = env.get_position(position)
     current_pos = context.receiver.getActualQ()
-    print(f"Current position: {current_pos}")
-    print(f"Expected position: {joint_positions}")
+    # print(f"Current position: {current_pos}")
+    # print(f"Expected position: {joint_positions}")
     context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
-    time.sleep(0.5)
+    demo_thread.stop()
