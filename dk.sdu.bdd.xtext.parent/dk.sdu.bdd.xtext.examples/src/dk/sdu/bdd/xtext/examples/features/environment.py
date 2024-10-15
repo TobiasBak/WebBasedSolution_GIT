@@ -6,7 +6,6 @@ from behave import fixture
 import rtde_receive
 import rtde_control
 import rtde_io
-from logic.sdu_robotics.robotiq_gripper_control import RobotiqGripper
 from behave.model import Scenario
 
 # Dynamically find the path to Environment.json

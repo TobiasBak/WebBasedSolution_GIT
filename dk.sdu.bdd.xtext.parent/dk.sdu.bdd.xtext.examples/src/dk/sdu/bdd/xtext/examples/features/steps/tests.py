@@ -2,8 +2,6 @@
 from behave import when, given, then
 import time
 import environment as env
-import os
-from LogWriterThread import LogWriterThread
 
 """
 Each method is given context as a parameter.
@@ -29,14 +27,10 @@ def step_given(context, identifier: str, position, prep):
     print(f"Desired position: {desired_pos}")
     write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
 
-    # demo_thread = LogWriterThread("Given thread")
-    # demo_thread.run()
-
     if context.receiver.getActualQ() != joint_positions or True:
         context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
         write_to_file(f"After moving {time.perf_counter()}")
         time.sleep(10)
-    # demo_thread.stop()
 
 
 def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
