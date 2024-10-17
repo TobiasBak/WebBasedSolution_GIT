@@ -41,7 +41,9 @@ def before_feature(context, feature):
     context.controller.moveJ(get_position("default"), get_speed(), get_acceleration())
 
 def after_feature(context, feature):
-    pass
+    print(f"After Feature!")
+    print(f"Scnearios: {feature.scenarios}")
+
 
 def before_step(context, step: Step):
     print(f"Running step: {step.name}")
