@@ -12,7 +12,7 @@ def readFile():
     
     # Construct the path to the tests.feature file
     feature_file_path = os.path.abspath(os.path.join(current_dir , os.pardir))
-    feature_file_path = feature_file_path + "tests.feature"
+    feature_file_path = os.path.join(feature_file_path, "hello_tests.feature")
     # Check if the file exists
     if not os.path.exists(bdd_file_path):
         print(f"File not found: {bdd_file_path}")
@@ -22,19 +22,22 @@ def readFile():
 
     with open(bdd_file_path) as f:
         with open(feature_file_path, "w") as fileWriter:
+            feature = "Feature: Specific feature"
+            fileWriter.write(feature + "\n")
+
             content = f.readlines()
-            disallowedStrings = ['actions', 'states', 'properties', '}', '/*', '*/', "which means", '//', 'declarative', 'imperative', 'model']
+            disallowedStrings = ['actions', 'states', 'properties', '}', '/*', '*/', "which means", '//', 'declarative', 'imperative', 'model', 'using']
             for line in content:
                 if any(x in line for x in disallowedStrings):
                     continue
-                if line.startswith('Scenario:'):
+                if line.strip().startswith('Scenario:'):
                     scenarioCounter += 1
                     scenario = line.replace('"', "").replace("Scenario: ", "")
-                    s = "Feature: " + scenario
-                    fileWriter.write(s + '\n')
-                elif line.startswith(('Given', 'When', 'Then')):
-                    s = '\tScenario: ' + line
+                    s = '\tScenario: ' + scenario
                     fileWriter.write(s)
+                elif line.strip().startswith(('Given', 'When', 'Then')):
+                    s = "\t"*2 + line.strip()
+                    fileWriter.write(s + "\n")
                 else:
                     fileWriter.write(line)
 
