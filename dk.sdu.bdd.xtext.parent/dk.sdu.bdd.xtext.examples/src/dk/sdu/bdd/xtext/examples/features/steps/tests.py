@@ -25,12 +25,16 @@ def step_given(context, identifier: str, position, prep):
     print(f"Joint positions: {joint_positions}")
     desired_pos = context.receiver.getActualQ()
     print(f"Desired position: {desired_pos}")
-    write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
+    # write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
+    print(context.scenario.name)
+    print(context.scenario.steps)
+    print(context.scenario.steps)
 
-    if context.receiver.getActualQ() != joint_positions or True:
-        context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
-        write_to_file(f"After moving {time.perf_counter()}")
-        time.sleep(10)
+
+    # if context.receiver.getActualQ() != joint_positions or True:
+    #     context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
+    #     write_to_file(f"After moving {time.perf_counter()}")
+    #     time.sleep(10)
 
 
 def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
@@ -73,3 +77,11 @@ def step_then(context, identifier: str, position, prep):
     print(f"Expected position: {joint_positions}")
     context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
     time.sleep(0.5)
+
+@given("god is not real")
+def step_impl(context):
+    """
+    Args:
+        context (behave.runner.Context):
+    """
+    print(u'Not implemented yet!')

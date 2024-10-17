@@ -6,7 +6,7 @@ from behave import fixture
 import rtde_receive
 import rtde_control
 import rtde_io
-from behave.model import Scenario
+from behave.model import Scenario, Step
 
 # Dynamically find the path to Environment.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -42,6 +42,10 @@ def before_feature(context, feature):
 
 def after_feature(context, feature):
     pass
+
+def before_step(context, step: Step):
+    print(f"Running step: {step.name}")
+    print(f"Step: {step}")
 
 def before_scenario(context, scenario): 
     pass
