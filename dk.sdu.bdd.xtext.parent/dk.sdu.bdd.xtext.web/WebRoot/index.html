@@ -10,6 +10,7 @@
     <script src="./scripts/imports.js" defer></script>
     <script src="./scripts/generators/bdd.js" defer></script>
     <script src="./scripts/generators/blockGenerator.js" defer></script>
+    <script src="./scripts/json_data.js" defer></script>
     <script src="./scripts/script.js" defer></script>
   </head>
   <body>
@@ -27,12 +28,12 @@
       </div>
       <div class="content">
         <div class="xtext-wrapper">
-          <div id="xtext-editor-scenarios" class="xtext-editor" style="display: none" 
-            data-editor-resource-id="multi-resource/scenarios.bdd" 
+          <div id="xtext-editor-scenarios" class="xtext-editor" style="display: none"
+            data-editor-resource-id="multi-resource/scenarios.bdd"
             data-editor-xtext-lang="bdd">
           </div>
           <div id="xtext-editor-entities" class="xtext-editor" style="display: block"
-            data-editor-resource-id="multi-resource/widgets.bdd" 
+            data-editor-resource-id="multi-resource/widgets.bdd"
             data-editor-xtext-lang="bdd">
           </div>
         </div>
@@ -45,8 +46,9 @@
         <button id="load-button" value="Load" title="Load">Load</button>
         <button id="get-ast">Get ast</button>
         <button id="save-scenario" onclick="saveScenario()">Save Scenario</button>
-        <button id="save-entities" onclick="saveEntities()">Save Entities</button>    
+        <button id="save-entities" onclick="saveEntities()">Save Entities</button>
         <button id="run-scenario" onclick="runScenario()">Run Scenario</button>
+        <button id="run-best-fetch" onclick="updateJsonData()">Run bestFetch</button> <!-- New button -->
       </div>
     </div>
   </body>

@@ -426,3 +426,17 @@ function runScenario() {
 }
 
 
+
+// Path to your JSON file
+console.log(jsonData)
+
+
+function updateJsonData() {
+	const newData = { "key": "newValue", "array": [4, 5, 6] }
+  // Update the jsonData object with new data
+  Object.assign(jsonData, newData);
+
+  // Log the updated jsonData object
+  console.log(jsonData);
+}
+
