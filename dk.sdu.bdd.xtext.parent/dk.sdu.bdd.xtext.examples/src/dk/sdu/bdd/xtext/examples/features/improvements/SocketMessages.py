@@ -1,11 +1,13 @@
 import json
 from array import array
 
+from behave.model import Step, Scenario
+
 
 class JsonStep:
-    def __init__(self):
-        self.text: str = "dummyText"
-        self.duration: float = 1.1
+    def __init__(self, step: Step):
+        self.text: str = step.name
+        self.duration: float = step.duration
         self.failure: bool = False
         self.skipped: bool = True
 
@@ -16,6 +18,15 @@ class JsonStep:
             "failure": self.failure,
             "skipped": self.skipped
         }
+
+    def mark_failure(self, failure: bool):
+        self.failure = failure
+
+    def mark_skipped(self, skipped: bool):
+        self.skipped = skipped
+
+    def update_duration(self, duration: float):
+        self.duration = duration
 
 
 class JsonGivenStep(JsonStep):
@@ -31,13 +42,33 @@ class JsonThenStep(JsonStep):
 
 
 class JsonScenario:
-    def __init__(self):
-        self.id_number = 1
-        self.name = "dummy"
-        self.duration = 0.5
+    def __init__(self, scenario: Scenario, id_number: int):
+        self.id_number = id_number
+        self.name = scenario.name
+        self.duration = scenario.duration
+
         self.given_steps: array[JsonGivenStep] = []
         self.when_steps: array[JsonWhenStep] = []
         self.then_steps: array[JsonThenStep] = []
+
+        self.step_map: dict[Step, JsonStep] = {}
+        self.populate_steps(scenario)
+
+    def populate_steps(self, scenario: Scenario):
+        step: Step = None
+        for step in scenario.steps:
+            json_step = JsonStep(step)
+            self.step_map[step] = json_step
+
+            if step.keyword == "Given":
+                self.given_steps.append(JsonGivenStep(step))
+            elif step.keyword == "When":
+                self.when_steps.append(JsonWhenStep(step))
+            elif step.keyword == "Then":
+                self.then_steps.append(JsonThenStep(step))
+
+    def update_duration(self, duration: float):
+        self.duration = duration
 
     def dump_to_json(self) -> str:
         dumped_object = {
