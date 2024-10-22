@@ -1,70 +1,8 @@
-# Data model:
-# [
-#   {
-#     id: int,
-#     name: str,
-#     duration: float,
-#     givens: [
-#       {
-#         text: str,
-#         duration: float,
-#         failure: bool,
-#         skipped: bool
-#       },
-#       {
-#         ...
-#       }
-#     ],
-#     whens: [
-#       {
-#         text: str,
-#         duration: float,
-#         failure: bool,
-#         skipped: bool
-#       },
-#       {
-#         ...
-#       }
-#     ],
-#     thens: [
-#       {
-#         text: str,
-#         duration: float,
-#         failure: bool,
-#         skipped: bool
-#       },
-#       {
-#         ...
-#       }
-#     ]
-#   },
-#   {
-#     ...
-#   },
-#   ...
-# ]
 import json
 from array import array
 
 
-class AckResponse:
-    def __init__(self, id: int, command: str, message: str):
-        self.type = MessageType.Ack_response
-        self.data: AckResponseData = AckResponseData(id, Status.parse(message), command, message)
-
-    def __str__(self):
-        return json.dumps({
-            "type": self.type.name,
-            "data": {
-                "id": self.data.id,
-                "status": self.data.status.name,
-                "command": self.data.command,
-                "message": self.data.message
-            }
-        })
-
-
-class Step:
+class JsonStep:
     def __init__(self):
         self.text: str = "dummyText"
         self.duration: float = 1.1
@@ -80,26 +18,26 @@ class Step:
         }
 
 
-class GivenStep(Step):
+class JsonGivenStep(JsonStep):
     pass
 
 
-class WhenStep(Step):
+class JsonWhenStep(JsonStep):
     pass
 
 
-class ThenStep(Step):
+class JsonThenStep(JsonStep):
     pass
 
 
-class Scenario:
+class JsonScenario:
     def __init__(self):
         self.id_number = 1
         self.name = "dummy"
         self.duration = 0.5
-        self.given_steps: array[GivenStep] = []
-        self.when_steps: array[WhenStep] = []
-        self.then_steps: array[ThenStep] = []
+        self.given_steps: array[JsonGivenStep] = []
+        self.when_steps: array[JsonWhenStep] = []
+        self.then_steps: array[JsonThenStep] = []
 
     def dump_to_json(self) -> str:
         dumped_object = {
@@ -113,3 +51,5 @@ class Scenario:
 
         return json.dumps(dumped_object)
 
+    def __str__(self):
+        return self.dump_to_json()
