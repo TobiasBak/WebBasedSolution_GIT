@@ -1,7 +1,11 @@
 # steps/tests.py
+import json
+from array import array
+
 from behave import when, given, then
 import time
 import environment as env
+from behave.model import Scenario, Feature
 
 """
 Each method is given context as a parameter.
@@ -36,9 +40,35 @@ def step_given(context, identifier: str, position, prep):
     #     write_to_file(f"After moving {time.perf_counter()}")
     #     time.sleep(10)
 
+def create_scenario_info_from_context(scenario: Scenario) -> dict:
+    data = {
+        "scenario_name": scenario.name,
+        "stage": scenario.line,
+    }
 
-def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
-    with open(filename, "a") as file:
+    return data
+
+
+def append_to_json_file(data: dict, filename: str = "scenario_log.json"):
+    with (open(filename, "rw") as file):
+        existing_content = json.load(file)
+        if existing_content is not array:
+            new_data = [
+                existing_content,
+                data
+            ]
+        else:
+            new_data = existing_content
+            new_data.append(data)
+
+        serialized = json.dumps(new_data)
+        file.write(serialized)
+
+
+def write_to_file(strin: str, filename: str = "someDooDoo.csv", overwrite: bool = False):
+    write_mode = "w" if overwrite else "a"
+
+    with open(filename, write_mode) as file:
         file.write(strin + "\n")
 
 
