@@ -1,17 +1,17 @@
 body {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	font: 16px Helvetica,sans-serif;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font: 16px Helvetica, sans-serif;
 }
 
 a {
-	color: #22a;
-	text-decoration: none;
+  color: #22a;
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .editor-tab {
@@ -19,45 +19,51 @@ a:hover {
 }
 
 .container {
-	display: block;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .container h1 {
   display: inline-block;
 }
 
-
 .header {
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 60px;
-	padding: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding: 10px;
+}
+
+.content-stack {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  max-width: 100%;
 }
 
 .content {
-	display: flex;
-	flex-direction: row;
-  height: 80vh;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
 
-.file-name{
+.file-name {
   margin-left: 20vw;
 }
 
 .xtext-wrapper {
-	top: 90px;
-	bottom: 0;
-	left: 0;
-	flex: 2;
-	height: 100%;
+  top: 90px;
+  bottom: 0;
+  left: 0;
+  flex: 2;
+  height: 100%;
 }
-
 
 .tab {
   background-color: #ddd;
@@ -65,34 +71,92 @@ a:hover {
 }
 
 #xtext-editor-entities {
-	display: none;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	padding: 4px;
-    box-sizing: border-box;
-	border: 1px solid #aaa;
-	height: 100%;
+  display: none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  height: 100%;
 }
 
 #xtext-editor-scenarios {
-	display: block;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	padding: 4px;
-    box-sizing: border-box;
-	border: 1px solid #aaa;
-	height: 100%;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  height: 100%;
 }
 
 #blockly-editor {
-	flex: 3;
-	height: 100%;
+  flex: 3;
+  height: 100%;
 }
 #blockly-editor2 {
-	flex: 3;
-	height: 100%;
-} 
+  flex: 3;
+  height: 100%;
+}
+
+.whyline-container {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+.whyline-container-header {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+#whyline {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.whyline-node {
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  min-width: 100px;
+  width: 100px;
+  min-height: 50px;
+}
+
+.whyline-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100px;
+  min-width: 100px;
+}
+
+.whyline-connector::before {
+  content: "";
+  width: 100px;
+  min-width: 100px;
+  height: 1px;
+  background: black;
+  position: absolute;
+}
+
+.whyline-connector span {
+  position: absolute;
+  top: -20px;
+  background: white;
+  padding: 0 5px;
+  white-space: nowrap;
+}
