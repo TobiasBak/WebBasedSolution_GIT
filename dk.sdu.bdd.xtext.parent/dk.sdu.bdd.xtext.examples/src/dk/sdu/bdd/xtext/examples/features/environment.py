@@ -6,6 +6,7 @@ from behave import fixture
 import rtde_receive
 import rtde_control
 import rtde_io
+from improvements.DataStorage import update_step_duration, finalize_scenario, send_scenario
 from behave.model import Scenario, Step
 
 # Dynamically find the path to Environment.json
@@ -42,17 +43,30 @@ def before_feature(context, feature):
 
 def after_feature(context, feature):
     print(f"After Feature!")
-    print(f"Scnearios: {feature.scenarios}")
+    print(f"Scenarios: {feature.scenarios}")
 
 
 def before_step(context, step: Step):
     print(f"Running step: {step.name}")
     print(f"Step: {step}")
+    # add step to DataStorage memory
 
-def before_scenario(context, scenario): 
+def after_step(context, step: Step):
+    print(f"Step: {step.name}")
+    print(f"Step: {step}")
+    print(f"This step ran for: {step.duration}")
+    print(f"StepStatus: {step.status}")
+    # if passed run DataStorage to store the step in list
+    if step.status == "passed":
+        update_step_duration(step)
+
+
+def before_scenario(context, scenario):
+    send_scenario(scenario)
     pass
 
 def after_scenario(context, scenario):
+    finalize_scenario(scenario)
     pass
 
 # Get coordinate-location based on configured name

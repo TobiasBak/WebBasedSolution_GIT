@@ -54,6 +54,7 @@ class JsonScenario:
         self.step_map: dict[Step, JsonStep] = {}
         self.populate_steps(scenario)
 
+
     def populate_steps(self, scenario: Scenario):
         for step in scenario.steps:
             match step.keyword:
