@@ -73,7 +73,7 @@ class JsonScenario:
     def update_duration(self, duration: float):
         self.duration = duration
 
-    def dump_to_json(self) -> str:
+    def dump_to_json(self) -> dict:
         dumped_object = {
             "id": self.id_number,
             "name": self.name,
@@ -82,8 +82,10 @@ class JsonScenario:
             "whens": [when.dump() for when in self.when_steps],
             "thens": [then.dump() for then in self.then_steps]
         }
+        return dumped_object
 
-        return json.dumps(dumped_object)
+    def dump_to_json_string(self) -> str:
+        return json.dumps(self.dump_to_json())
 
     def __str__(self):
         return self.dump_to_json()
