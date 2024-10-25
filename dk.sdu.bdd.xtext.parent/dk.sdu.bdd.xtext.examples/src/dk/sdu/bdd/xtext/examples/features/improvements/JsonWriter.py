@@ -1,19 +1,18 @@
 import json
 from array import array
 
-from behave.model import Scenario
-
-
-def create_scenario_info_from_context(scenario: Scenario) -> dict:
-    data = {
-        "scenario_name": scenario.name,
-        "stage": scenario.line,
-    }
-
-    return data
-
 
 def append_to_json_file(data: dict, filename: str = "scenario_log.json"):
+    """
+    This function will read the contents of the json file and append the provided data to an array as the top level object.
+    If the top-level data in the file
+    Args:
+        data:
+        filename:
+
+    Returns:
+
+    """
     with (open(filename, "rw") as file):
         existing_content = json.load(file)
         if existing_content is not array:
