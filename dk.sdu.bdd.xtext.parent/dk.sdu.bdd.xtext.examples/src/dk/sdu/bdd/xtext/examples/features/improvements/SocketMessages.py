@@ -56,19 +56,20 @@ class JsonScenario:
 
 
     def populate_steps(self, scenario: Scenario):
-        for step in scenario.steps:
-            match step.keyword:
-                case "Given":
+        steps: list[Step] = scenario.steps
+        for step in steps:
+            match str(step.step_type).lower():
+                case "given":
                     json_step = JsonGivenStep(step)
                     self.given_steps.append(json_step)
-                case "When":
+                case "when":
                     json_step = JsonWhenStep(step)
                     self.when_steps.append(json_step)
-                case "Then":
+                case "then":
                     json_step = JsonThenStep(step)
                     self.then_steps.append(json_step)
                 case _:
-                    raise ValueError(f"Unknown step keyword: {step.keyword}")
+                    raise ValueError(f"Unknown step keyword: {step.step_type}")
             self.step_map[step] = json_step
 
     def update_duration(self, duration: float):
