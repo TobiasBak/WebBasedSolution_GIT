@@ -2,8 +2,12 @@ import json
 
 from behave.model import Scenario, Step, Status
 
-from JsonWriter import write_to_file
-from SocketMessages import JsonScenario
+try:
+    from JsonWriter import write_to_file
+    from SocketMessages import JsonScenario
+except ImportError:
+    from improvements.JsonWriter import write_to_file
+    from improvements.SocketMessages import JsonScenario
 
 executed_scenarios = []
 current_scenario: JsonScenario
