@@ -1,13 +1,12 @@
-import os
 import json
-from msilib.schema import Feature
-from pyexpat import features
-from behave import fixture
-import rtde_receive
+import os
+
 import rtde_control
 import rtde_io
+import rtde_receive
+from behave.model import Step
+
 from improvements.DataStorage import update_step_duration, finalize_scenario, send_scenario
-from behave.model import Scenario, Step
 
 # Dynamically find the path to Environment.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -41,6 +40,7 @@ def before_all(context):
 def before_feature(context, feature): 
     context.controller.moveJ(get_position("default"), get_speed(), get_acceleration())
 
+
 def after_feature(context, feature):
     print(f"After Feature!")
     print(f"Scenarios: {feature.scenarios}")
@@ -50,6 +50,7 @@ def before_step(context, step: Step):
     print(f"Running step: {step.name}")
     print(f"Step: {step}")
     # add step to DataStorage memory
+
 
 def after_step(context, step: Step):
     print(f"Step: {step.name}")
@@ -63,11 +64,9 @@ def after_step(context, step: Step):
 
 def before_scenario(context, scenario):
     send_scenario(scenario)
-    pass
 
 def after_scenario(context, scenario):
     finalize_scenario(scenario)
-    pass
 
 # Get coordinate-location based on configured name
 def get_position(name):

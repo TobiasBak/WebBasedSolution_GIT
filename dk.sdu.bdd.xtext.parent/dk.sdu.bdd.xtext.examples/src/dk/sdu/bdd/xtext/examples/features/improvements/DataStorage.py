@@ -1,10 +1,9 @@
+import json
+
 from behave.model import Scenario, Step, Status
 
+from JsonWriter import write_to_file
 from SocketMessages import JsonScenario
-
-# class behave.model.Scenario(filename, line, keyword, name,
-# tags=None, steps=None, description=None, parent=None,
-# background=None, background_steps=None)
 
 executed_scenarios = []
 current_scenario: JsonScenario
@@ -19,6 +18,7 @@ def finalize_scenario(scenario: Scenario):
     if current_scenario is not None:
         current_scenario.update_duration(scenario.duration)
         executed_scenarios.append(current_scenario)
+        write_to_file(json.dumps([scenario.dump_to_json() for scenario in executed_scenarios]), "scenario_log.json", True)
         current_scenario = None
 
 
@@ -40,4 +40,7 @@ def update_step_duration(step: Step):
     scenario_step = current_scenario.step_map[step]
     scenario_step.update_duration(step.duration)
     scenario_step.mark_skipped(not step.status == Status.passed)
+
+
+
 
