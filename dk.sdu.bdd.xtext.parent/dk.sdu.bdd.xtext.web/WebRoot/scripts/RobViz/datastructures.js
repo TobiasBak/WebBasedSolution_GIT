@@ -31,6 +31,12 @@ class Offset {
     }
 }
 
+/**
+ * Represents a position in 3D space.
+ * @param {Number} x The x-coordinate of the position.
+ * @param {Number} y The y-coordinate of the position.
+ * @param {Number} z The z-coordinate of the position.
+ */
 class Position {
     constructor(x, y, z) {
         this.x = Number.parseFloat(x);

@@ -90,3 +90,13 @@ export function computePositionAndRotation(inputRotationsPerJoint) {
 
     return [outputPositions, currentTransformationMatrix.subset(math.index([0, 1, 2], [0, 1, 2])).toArray()];
 }
+
+/**
+ * Compute the postions of all robot joints based on the input rotations of each motor
+ * @param inputRotationsPerJoint An array with six elements, each element representing the rotation of the corresponding joint.
+ * Order is from base to end-effector
+ * @return {Position[]} An array of positions for each joint. The array will have 6 elements and each element is of {@link Position} type
+ */
+export function computePositions(inputRotationsPerJoint) {
+    return computePositionAndRotation(inputRotationsPerJoint)[0];
+}
