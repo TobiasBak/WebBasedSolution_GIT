@@ -1,5 +1,5 @@
 import rtde_control
-from logic.sdu_robotics.robotiq_preamble import ROBOTIQ_PREAMBLE
+from robotiq_preamble import ROBOTIQ_PREAMBLE
 import time
 
 

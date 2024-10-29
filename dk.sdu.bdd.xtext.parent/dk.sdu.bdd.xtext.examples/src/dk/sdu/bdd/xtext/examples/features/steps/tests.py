@@ -1,7 +1,7 @@
-# steps/tests.py
-from behave import when, given, then
 import time
+
 import environment as env
+from behave import when, given, then
 
 """
 Each method is given context as a parameter.
@@ -27,8 +27,10 @@ def step_given(context, identifier: str, position, prep):
     joint_positions = env.get_position(position)
     # print(f"Joint positions: {joint_positions}")
     desired_pos = context.receiver.getActualQ()
-    # print(f"Desired position: {desired_pos}")
-    write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
+    print(f"Desired position: {desired_pos}")
+    print(context.scenario.name)
+    print(context.scenario.steps)
+    print(context.scenario.steps)
 
 
     if context.receiver.getActualQ() != joint_positions or True:
