@@ -448,25 +448,10 @@ function runScenario() {
 	fetch("/run-scenario", {
 		method: "POST",
 	}).then((response) => {
+		render3DVisualization()
+		renderWhyLine()
 		if (response.ok) {
 			alert("Scenario running...");
-
-			response.json().then(jsonResponse => {
-				console.log("Updating 3D replay of robot");
-
-				robotPositionsList = [];
-
-				jsonResponse.threeDReplay.forEach(position => {
-					robotPositionsList.push(computePositions(position))
-				})
-
-				render3DVisualization();
-
-				console.log("Updating WhyLine data");
-				whylineData = jsonResponse.whyLine;
-				renderWhyLine();
-
-			})
 		} else {
 			alert("Error running scenario.");
 		}

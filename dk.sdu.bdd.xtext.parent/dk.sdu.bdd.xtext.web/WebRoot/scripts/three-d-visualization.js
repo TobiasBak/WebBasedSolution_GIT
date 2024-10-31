@@ -128,8 +128,20 @@ function computePositions(inputRotationsPerJoint) {
 	return [ base, shoulder, elbow, wrist_1, wrist_2, wrist_3 ];
 }
 
-// (GLOBAL VARIABLE) List of different robot positions (6 sets of coordinates)
+const raw_positions = [
+    [0.0, 0.5, 1.0, 0.3, 0.2, 0.1],  // First position
+    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2],  // Second position
+    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Third position
+    [0.6, 0.8, 1.6, 0.6, 0.5, 0.4],  // Fourth position
+    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Fifth position
+    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2]   // Sixth position
+];
+
 var robotPositionsList = [];
+raw_positions.forEach(position => {
+	robotPositionsList.push(computePositions(position));
+
+})
 
 function render3DVisualization() {
 	const scene = new THREE.Scene();
