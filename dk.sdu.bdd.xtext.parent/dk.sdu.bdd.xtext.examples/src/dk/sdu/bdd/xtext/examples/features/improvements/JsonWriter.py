@@ -18,7 +18,7 @@ def append_to_json_file(data: dict, filename: str = "scenario_log.json") -> None
     except FileNotFoundError:
         existing_content = []
 
-    if not isinstance(existing_content, list):
+    if not isinstance(existing_content, list) and existing_content != []:
         new_data = [
             existing_content,
             data
