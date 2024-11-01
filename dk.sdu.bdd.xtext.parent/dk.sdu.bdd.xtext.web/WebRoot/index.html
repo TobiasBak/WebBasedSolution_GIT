@@ -13,6 +13,7 @@
 	<script src="./scripts/generators/bdd.js" defer></script>
 	<script src="./scripts/generators/blockGenerator.js" defer></script>
 	<script src="./scripts/script.js" defer></script>
+	<script src="./scripts/scenario_log_data_converter.js"></script>
 	<script>
 		$(document).ready(function () {
 			const $whyline = $('#whyline');
@@ -35,8 +36,10 @@
 	<div class="container">
 		<div class="header">
 			<h1>Editor for BDD Scenarios</h1>
-			<span class=file-name> <label for="fileName">File name</label> </span>
+			<span class=file-name>
+				<label for="fileName">File name</label>
 				<input id="fileName" type="text" maxlength="35" />
+			</span>
 		</div>
 		<div class="editor-tab">
 			<span id="entity-tab" data-editor-id="xtext-editor-entities" class="tab">Entities</span>
