@@ -1,7 +1,7 @@
-# steps/tests.py
-from behave import when, given, then
 import time
+
 import environment as env
+from behave import when, given, then
 
 """
 Each method is given context as a parameter.
@@ -25,32 +25,9 @@ def step_given(context, identifier: str, position, prep):
     print(f"Joint positions: {joint_positions}")
     desired_pos = context.receiver.getActualQ()
     print(f"Desired position: {desired_pos}")
-    write_to_file(f"Before moving {time.perf_counter()} : pos -> {joint_positions} and desire {desired_pos}")
-
-    if context.receiver.getActualQ() != joint_positions or True:
-        context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
-        write_to_file(f"After moving {time.perf_counter()}")
-        time.sleep(10)
-
-
-def write_to_file(strin: str, filename: str = "someDooDoo.csv"):
-    with open(filename, "a") as file:
-        file.write(strin + "\n")
-
-
-def write_to_log(strin: str, scenario_name: str, scenario_step: str):
-    write_to_file(f"{strin},{scenario_name},{scenario_step}", "DooDooLogs.csv")
-
-
-def soft_position_comparison(actual_position, desired_position, sensitivity: float = 0.01) -> bool:
-    for i in range(len(actual_position)):
-        if check_in_range_sensitivity(actual_position[i], desired_position[i], sensitivity):
-            return True
-    return False
-
-
-def check_in_range_sensitivity(actual_pos: float, desired_pos: float, sensitivity: float):
-    return not abs(actual_pos - desired_pos) <= sensitivity
+    print(context.scenario.name)
+    print(context.scenario.steps)
+    print(context.scenario.steps)
 
 
 @when('the robot "{identifier}" moves to position "{position}"')
@@ -73,3 +50,12 @@ def step_then(context, identifier: str, position, prep):
     print(f"Expected position: {joint_positions}")
     context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
     time.sleep(0.5)
+
+
+@given("god is not real")
+def step_impl(context):
+    """
+    Args:
+        context (behave.runner.Context):
+    """
+    print(u'Not implemented yet!')
