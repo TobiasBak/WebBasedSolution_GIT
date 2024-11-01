@@ -1,8 +1,3 @@
-export {
-    Position,
-    Offset,
-}
-
 class Offset {
     constructor(x, y, z) {
         this.x = Number.parseFloat(x);
