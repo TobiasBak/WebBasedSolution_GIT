@@ -1,0 +1,11 @@
+model robotic_domain
+declarative entity robot {
+	actions: moves
+	properties: position, speed
+}
+
+declarative entity gripper {
+	actions: closes, opens
+	states: closed, opened	 
+}
+
