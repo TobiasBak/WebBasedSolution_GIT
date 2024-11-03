@@ -449,7 +449,6 @@ function runScenario() {
 		method: "POST",
 	}).then((response) => {
 		render3DVisualization()
-		renderWhyLine()
 		if (response.ok) {
 			alert("Scenario running...");
 		} else {
