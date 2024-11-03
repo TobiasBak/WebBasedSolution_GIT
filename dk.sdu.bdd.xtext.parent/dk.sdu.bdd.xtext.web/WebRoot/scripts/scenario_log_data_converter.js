@@ -10,17 +10,14 @@ function loadData(path) {
     return out;
 }
 
-const frequency_ms = 1000;
+const frequency_ms = 100;
 let old_data = null
 
 setInterval(function () {
     let json_data = loadData(dataPath);
-    console.log(json_data);
     let whyline_data;
 
     if (!old_data || !compareArraysTheRightWay(json_data, old_data)) {
-        console.log("We Have new Data!");
-        console.log(json_data)
         whyline_data = processWhylineData(json_data)
         generateWhyline(whyline_data)
         old_data = json_data;
@@ -53,8 +50,12 @@ function processWhylineData(objects) {
             }
         }
 
-        for (const when of obj.whens) {
-            whylineData.push({ type: "node", value: "When " + when.text });
+        for (const [i, when] of obj.whens.entries()) {
+            if (i === 0) {
+                whylineData.push({ type: "node", value: "When " + when.text });
+            } else {
+                whylineData.push({ type: "node", value: "And " + when.text });
+            }
             if (when.skipped) {
                 whylineData.push({ type: "connector", value: "skipped" });
             } else {
@@ -62,8 +63,12 @@ function processWhylineData(objects) {
             }
         }
 
-        for (const then of obj.thens) {
-            whylineData.push({ type: "node", value: "Then " + then.text });
+        for (const [i, then] of obj.thens.entries()) {
+            if (i === 0) {
+                whylineData.push({ type: "node", value: "Then " + then.text });
+            } else {
+                whylineData.push({ type: "node", value: "And " + then.text });
+            }
             if (then.skipped) {
                 whylineData.push({ type: "connector", value: "skipped" });
             } else {
@@ -74,7 +79,6 @@ function processWhylineData(objects) {
         whylineData.push({ type: "done", value: "Done" });
     }
 
-    console.log(whylineData);
     return whylineData;
 }
 
