@@ -80,6 +80,8 @@ function processWhylineData(objects) {
 
 
 function generateWhyline(whyline_data) {
+    const $whyline = $('#whyline');
+    $whyline.empty();
     whyline_data.forEach(item => {
         if (item.type === "node") {
             const $node = $('<div>').addClass('whyline-node').text(item.value);
