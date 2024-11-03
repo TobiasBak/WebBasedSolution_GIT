@@ -1,6 +1,3 @@
-// We are going to fetch localhost with a mode to allow CORS.
-// We are simply fetching scenario_log.json which is in WebRoot.
-// Fetching the JSON file.
 const dataPath = './logs/scenario_log.json';
 function loadData(path) {
     fetch(path, {
@@ -8,31 +5,29 @@ function loadData(path) {
     })
         .then(response => response.json())
         .then(data => {
-            json_data = data;
+            out = data
         });
-    return json_data
+    return out;
 }
 
 const frequency_ms = 1000;
+let old_data = null
 
-let mother_data = null
 setInterval(function () {
     let json_data = loadData(dataPath);
+    console.log(json_data);
+    let whyline_data;
 
-    if (!mother_data || !compareArraysTheRightWay(json_data, mother_data)) {
+    if (!old_data || !compareArraysTheRightWay(json_data, old_data)) {
         console.log("We Have new Data!");
-
-        mother_data = json_data;
-    } else {
-        return
+        console.log(json_data)
+        whyline_data = processWhylineData(json_data)
+        generateWhyline(whyline_data)
+        old_data = json_data;
     }
 
-    // We have new data we need to do shit now
-    whyline_data = processWhylineData(mother_data)
-
-    generateWhyline(whyline_data)
-
 }, frequency_ms);
+
 
 function compareArraysTheRightWay(a, b){
     return (JSON.stringify(a) === JSON.stringify(b));
@@ -43,34 +38,40 @@ function processWhylineData(objects) {
     const whylineData = [];
 
     for (const obj of objects) {
-        whylineData.push({ type: "node", value: obj.name });
+        whylineData.push({ type: "scenario", value: "Scenario: " + obj.name, id: obj.id});
 
-        for (const given of obj.givens) {
+        for (const [i, given] of obj.givens.entries()) {
+            if(i === 0) {
+                whylineData.push({ type: "node", value: "Given " + given.text });
+            } else {
+                whylineData.push({ type: "node", value: "And " + given.text });
+            }
             if (given.skipped) {
                 whylineData.push({ type: "connector", value: "skipped" });
             } else {
                 whylineData.push({ type: "connector", value: String(!given.failure) });
-                whylineData.push({ type: "node", value: given.text });
             }
         }
 
         for (const when of obj.whens) {
+            whylineData.push({ type: "node", value: "When " + when.text });
             if (when.skipped) {
                 whylineData.push({ type: "connector", value: "skipped" });
             } else {
                 whylineData.push({ type: "connector", value: String(!when.failure) });
-                whylineData.push({ type: "node", value: when.text });
             }
         }
 
         for (const then of obj.thens) {
+            whylineData.push({ type: "node", value: "Then " + then.text });
             if (then.skipped) {
                 whylineData.push({ type: "connector", value: "skipped" });
             } else {
                 whylineData.push({ type: "connector", value: String(!then.failure) });
-                whylineData.push({ type: "node", value: then.text });
             }
         }
+
+        whylineData.push({ type: "done", value: "Done" });
     }
 
     console.log(whylineData);
@@ -78,19 +79,27 @@ function processWhylineData(objects) {
 }
 
 
-
 function generateWhyline(whyline_data) {
     const $whyline = $('#whyline');
+    let $scenario;
     $whyline.empty();
     whyline_data.forEach(item => {
-        if (item.type === "node") {
+        if(item.type === "scenario") {
+            $scenario = $('<div>').attr('id', 'scenario' + item.id).addClass('whyline-scenario');
+            const $scenarioName = $('<h2>').addClass('whyline-scenario-name').text(item.value);
+            $whyline.append($scenarioName);
+            $whyline.append($scenario);
+        } else if (item.type === "node") {
             const $node = $('<div>').addClass('whyline-node').text(item.value);
-            $whyline.append($node);
+            $scenario.append($node);
         } else if (item.type === "connector") {
             const $connector = $('<div>').addClass('whyline-connector');
             const $text = $('<span>').text(item.value);
             $connector.append($text);
-            $whyline.append($connector);
+            $scenario.append($connector);
+        } else if (item.type === "done") {
+            const $done = $('<div>').addClass('whyline-done').text(item.value);
+            $scenario.append($done);
         }
     });
 

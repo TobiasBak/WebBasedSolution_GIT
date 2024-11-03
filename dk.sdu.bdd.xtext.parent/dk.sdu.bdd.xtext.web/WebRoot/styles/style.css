@@ -121,11 +121,16 @@ body {
   }
   
   #whyline {
-    display: flex;
     width: 100%;
     height: 100%;
     align-items: center;
     overflow-x: scroll;
+  }
+
+  .whyline-scenario {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
   }
   
   .whyline-node {
@@ -165,6 +170,13 @@ body {
     background: white;
     padding: 0 5px;
     white-space: nowrap;
+  }
+
+  .whyline-done {
+    background: black;
+    color: white;
+    border-radius: 50%;
+    padding: 1em;
   }
   
   .empty-state {
