@@ -28,7 +28,7 @@ setInterval(function () {
     }
 
     // We have new data we need to do shit now
-    whyline_data = convertMotherDataToWhylineData(mother_data)
+    whyline_data = processWhylineData(mother_data)
 
     generateWhyline(whyline_data)
 
@@ -39,31 +39,44 @@ function compareArraysTheRightWay(a, b){
 }
 
 
-function convertMotherDataToWhylineData(json_object) {
-    // From the json object we need to generate
-    whyline_data = []
+function processWhylineData(objects) {
+    const whylineData = [];
 
+    for (const obj of objects) {
+        whylineData.push({ type: "node", value: obj.name });
 
-// # The dummy object should be converted to a list of objects and connections in the following format
-// # whylineData2 = [
-// # 				{ type: "node", value: "Why did that not happen" },
-// # 				{ type: "connector", value: "true" },
-// # 				{ type: "node", value: "Hejsa med dig" },
-// # 				{ type: "connector", value: "false" },
-// # 				{ type: "node", value: "Ooooogooanb" },
-// # 				{ type: "connector", value: "true" },
-// # 				{ type: "node", value: "Hejsa med dig" },
-// # 				{ type: "connector", value: "false" },
-// # 				{ type: "node", value: "Ooooogooanb" },
-// # 				{ type: "connector", value: "true" },
-// # 				{ type: "node", value: "Hejsa med dig" },
-// # 				{ type: "connector", value: "false" },
-// # 				{ type: "node", value: "Ooooogooanb" },
-// # 			];
+        for (const given of obj.givens) {
+            if (given.skipped) {
+                whylineData.push({ type: "connector", value: "skipped" });
+            } else {
+                whylineData.push({ type: "connector", value: String(!given.failure) });
+                whylineData.push({ type: "node", value: given.text });
+            }
+        }
 
+        for (const when of obj.whens) {
+            if (when.skipped) {
+                whylineData.push({ type: "connector", value: "skipped" });
+            } else {
+                whylineData.push({ type: "connector", value: String(!when.failure) });
+                whylineData.push({ type: "node", value: when.text });
+            }
+        }
 
+        for (const then of obj.thens) {
+            if (then.skipped) {
+                whylineData.push({ type: "connector", value: "skipped" });
+            } else {
+                whylineData.push({ type: "connector", value: String(!then.failure) });
+                whylineData.push({ type: "node", value: then.text });
+            }
+        }
+    }
 
+    console.log(whylineData);
+    return whylineData;
 }
+
 
 
 function generateWhyline(whyline_data) {
