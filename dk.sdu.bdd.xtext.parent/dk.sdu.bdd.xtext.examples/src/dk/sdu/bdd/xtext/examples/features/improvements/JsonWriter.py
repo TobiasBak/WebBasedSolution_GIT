@@ -1,5 +1,4 @@
 import json
-from array import array
 
 
 def append_to_json_file(data: dict, filename: str = "scenario_log.json") -> None:
@@ -9,17 +8,26 @@ def append_to_json_file(data: dict, filename: str = "scenario_log.json") -> None
     If the top-level data in the file is not an array,
     it will be wrapped in an array with the new data as the second entry.
     """
-    with (open(filename, "rw") as file):
-        existing_content = json.load(file)
-        if existing_content is not array:
-            new_data = [
-                existing_content,
-                data
-            ]
-        else:
-            new_data = existing_content
-            new_data.append(data)
+    try:
+        with open(filename, "r") as file:
+            file_content = file.read()
+            if file_content:
+                existing_content = json.loads(file_content)
+            else:
+                existing_content = []
+    except FileNotFoundError:
+        existing_content = []
 
+    if not isinstance(existing_content, list) and existing_content != []:
+        new_data = [
+            existing_content,
+            data
+        ]
+    else:
+        new_data = existing_content
+        new_data.append(data)
+
+    with (open(filename, "w") as file):
         serialized = json.dumps(new_data)
         file.write(serialized)
 

@@ -1,77 +1,88 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta http-equiv="Content-Language" content="en-us">
-	<title>Example Web Editor</title>
-	<link rel="stylesheet" type="text/css" href="xtext/2.25.0/xtext-ace.css" />
-	<link rel="stylesheet" type="text/css" href="./styles/style.css" />
-	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
-	<script src="webjars/requirejs/2.3.6/require.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="./scripts/imports.js" defer></script>
-	<script src="./scripts/generators/bdd.js" defer></script>
-	<script src="./scripts/generators/blockGenerator.js" defer></script>
-	<script src="./scripts/script.js" defer></script>
-	<script src="./scripts/scenario_log_data_converter.js"></script>
-	<script>
-		$(document).ready(function () {
-			const $whyline = $('#whyline');
-			whylineData2.forEach(item => {
-				if (item.type === "node") {
-					const $node = $('<div>').addClass('whyline-node').text(item.value);
-					$whyline.append($node);
-				} else if (item.type === "connector") {
-					const $connector = $('<div>').addClass('whyline-connector');
-					const $text = $('<span>').text(item.value);
-					$connector.append($text);
-					$whyline.append($connector);
-				}
-			});
-		});
-	</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Language" content="en-us">
+    <title>Example Web Editor</title>
+    <link rel="stylesheet" type="text/css" href="xtext/2.25.0/xtext-ace.css"/>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css"/>
+    <script src="https://unpkg.com/mathjs@11.8.0/lib/browser/math.js"
+            integrity="sha384-2NnkIgIitZUPvVF20yEtYm3encP/kCjZ8nxchj4j7cbqmRi9jaVLYz/Pwn/ZgWQ6"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="webjars/requirejs/2.3.6/require.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="./scripts/imports.js" defer></script>
+    <script src="./scripts/generators/bdd.js" defer></script>
+
+    <script src="./scripts/RobViz/datastructures.js" defer></script>
+    <script src="./scripts/RobViz/computeJointPositions.js" defer></script>
+    <script src="./scripts/three-d-visualization.js" defer></script>
+    <script src="./scripts/whyline.js" defer></script>
+    <script src="./scripts/generators/blockGenerator.js" defer></script>
+    <script src="./scripts/script.js" defer></script>
 </head>
 
 <body>
-	<div class="container">
-		<div class="header">
-			<h1>Editor for BDD Scenarios</h1>
-			<span class=file-name>
-				<label for="fileName">File name</label>
-				<input id="fileName" type="text" maxlength="35" />
-			</span>
-		</div>
-		<div class="editor-tab">
-			<span id="entity-tab" data-editor-id="xtext-editor-entities" class="tab">Entities</span>
-			<span id="scenario-tab" data-editor-id="xtext-editor-scenarios" class="tab">Scenarios</span>
-			<span id="warning-message" style="color: red; visibility: hidden;">Entities should be defined first.</span>
-		</div>
-		<div class="content-stack">
-			<div class="content">
-				<div class="xtext-wrapper">
-					<div id="xtext-editor-scenarios" class="xtext-editor" style="display: none"
-						data-editor-resource-id="multi-resource/scenarios.bdd" data-editor-xtext-lang="bdd"></div>
-					<div id="xtext-editor-entities" class="xtext-editor" style="display: block"
-						data-editor-resource-id="multi-resource/widgets.bdd" data-editor-xtext-lang="bdd"></div>
-				</div>
-				<div class="blockly" id="blockly-editor" style="display: block;"></div>
-				<div class="blockly" id="blockly-editor2" style="display: none;"></div>
-			</div>
-			<div class="whyline-container">
-				<h2 class="whyline-header">Whyline</h2>
-				<div id="whyline"></div>
-			</div>
-		</div>
-		<div>
-			<button id="save-button" value="Save" title="Save">Save</button>
-			<input id="file-input" type="file" style="display: none;" />
-			<button id="load-button" value="Load" title="Load">Load</button>
-			<button id="get-ast">Get ast</button>
-			<button id="save-scenario" onclick="saveScenario()">Save Scenario</button>
-			<!-- <button id="save-entities" onclick="saveEntities()">Save Entities</button> -->
-			<button id="run-scenario" onclick="runScenario()">Run Scenario</button>
-		</div>
-	</div>
+<div class="container">
+    <div class="header">
+        <h1>Editor for BDD Scenarios</h1>
+        <span class=file-name> <label for="fileName">File name</label>
+				<input id="fileName" type="text" maxlength="35"/>
+            </span>
+    </div>
+    <div class="editor-tab">
+			<span id="entity-tab" data-editor-id="xtext-editor-entities"
+                  class="tab">Entities</span> <span id="scenario-tab"
+                                                    data-editor-id="xtext-editor-scenarios" class="tab">Scenarios</span>
+        <span id="warning-message" style="color: red; visibility: hidden;">Entities
+				should be defined first.</span>
+    </div>
+    <div class="content-stack">
+        <div class="content">
+            <div class="xtext-wrapper">
+                <div id="xtext-editor-scenarios" class="xtext-editor"
+                     style="display: none"
+                     data-editor-resource-id="multi-resource/scenarios.bdd"
+                     data-editor-xtext-lang="bdd"></div>
+                <div id="xtext-editor-entities" class="xtext-editor"
+                     style="display: block"
+                     data-editor-resource-id="multi-resource/widgets.bdd"
+                     data-editor-xtext-lang="bdd"></div>
+            </div>
+            <div class="blockly" id="blockly-editor" style="display: block;"></div>
+            <div class="blockly" id="blockly-editor2" style="display: none;"></div>
+        </div>
+        <div class="whyline-container">
+            <h2 class="container-header">Whyline</h2>
+            <div id="whyline">
+                <p class="empty-state">Run a scenario to see the WhyLine</p>
+            </div>
+        </div>
+        <div class="three-d-container">
+            <h2 class="container-header">3D Replay</h2>
+            <div id="three-d-container">
+                <p class="empty-state">Run a scenario to see the 3D Replay</p>
+            </div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button id="save-button" value="Save" title="Save">Save</button>
+        <input id="file-input" type="file" style="display: none;"/>
+        <button id="load-button" value="Load" title="Load">Load</button>
+        <button id="get-ast">Get ast</button>
+        <button id="save-scenario" onclick="saveScenario()">Save
+            Scenario
+        </button>
+        <!-- <button id="save-entities" onclick="saveEntities()">Save Entities</button> -->
+        <button id="run-scenario" onclick="runScenario()">Run
+            Scenario
+        </button>
+    </div>
+</div>
 </body>
 
 </html>
