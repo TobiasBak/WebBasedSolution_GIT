@@ -4,10 +4,10 @@ const frequency_ms = 100;
 let old_data = null
 
 setInterval(function () {
-    let json_data = loadData(dataPath);
+    const json_data = loadData(dataPath);
     if (!json_data || compareArraysTheRightWay(json_data, old_data)) { return; }
 
-    let whyline_data = processWhylineData(json_data);
+    const whyline_data = processWhylineData(json_data);
     generateWhyline(whyline_data)
     old_data = json_data;
 
@@ -20,6 +20,19 @@ function compareArraysTheRightWay(a, b){
 }
 
 
+function createSpecificWhylineObjects(i, whylineData, object, scenarioType) {
+    if (i === 0) {
+        whylineData.push({type: "node", value: scenarioType + " " + object.text});
+    } else {
+        whylineData.push({type: "node", value: "And " + object.text});
+    }
+    if (object.skipped) {
+        whylineData.push({type: "connector", value: "skipped"});
+    } else {
+        whylineData.push({type: "connector", value: String(!object.failure)});
+    }
+}
+
 function processWhylineData(objects) {
     const whylineData = [];
 
@@ -27,42 +40,15 @@ function processWhylineData(objects) {
         whylineData.push({ type: "scenario", value: "Scenario: " + obj.name, id: obj.id});
 
         for (const [i, given] of obj.givens.entries()) {
-            if(i === 0) {
-                whylineData.push({ type: "node", value: "Given " + given.text });
-            } else {
-                whylineData.push({ type: "node", value: "And " + given.text });
-            }
-            if (given.skipped) {
-                whylineData.push({ type: "connector", value: "skipped" });
-            } else {
-                whylineData.push({ type: "connector", value: String(!given.failure) });
-            }
+            createSpecificWhylineObjects(i, whylineData, given, "Given");
         }
 
         for (const [i, when] of obj.whens.entries()) {
-            if (i === 0) {
-                whylineData.push({ type: "node", value: "When " + when.text });
-            } else {
-                whylineData.push({ type: "node", value: "And " + when.text });
-            }
-            if (when.skipped) {
-                whylineData.push({ type: "connector", value: "skipped" });
-            } else {
-                whylineData.push({ type: "connector", value: String(!when.failure) });
-            }
+            createSpecificWhylineObjects(i, whylineData, when, "When");
         }
 
         for (const [i, then] of obj.thens.entries()) {
-            if (i === 0) {
-                whylineData.push({ type: "node", value: "Then " + then.text });
-            } else {
-                whylineData.push({ type: "node", value: "And " + then.text });
-            }
-            if (then.skipped) {
-                whylineData.push({ type: "connector", value: "skipped" });
-            } else {
-                whylineData.push({ type: "connector", value: String(!then.failure) });
-            }
+            createSpecificWhylineObjects(i, whylineData, then, "Then");
         }
 
         whylineData.push({ type: "done", value: "Done" });
