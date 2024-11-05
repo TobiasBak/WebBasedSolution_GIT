@@ -107,7 +107,7 @@ function render3DVisualization() {
 function createJoint(position) {
 	const geometry = new THREE.SphereGeometry(0.2, 32, 32);  // Sphere size remains unchanged
 	const joint = new THREE.Mesh(geometry, jointMaterial);
-	joint.position.set(position.x * 10, position.y * 10, position.z * 10);  // Scale position
+	joint.position.set(position.x * 2, position.y * 2, position.z * 2);  // Scale position
 	return joint;
 }
 
@@ -116,7 +116,7 @@ function createJoint(position) {
  * @returns {Line|*}
  */
 function createHistoryLine(points) {
-	const vectors = points.map(p => new THREE.Vector3(p.x * 10, p.y * 10, p.z * 10));  // Scale position
+	const vectors = points.map(p => new THREE.Vector3(p.x * 2, p.y * 2, p.z * 2));  // Scale position
 	const geometry = new THREE.BufferGeometry().setFromPoints(vectors);
 	return new THREE.Line(geometry, historyLineMaterial);
 }
@@ -128,8 +128,8 @@ function createHistoryLine(points) {
  */
 function createLine(startPoint, endPoint) {
 	const geometry = new THREE.BufferGeometry().setFromPoints([
-		new THREE.Vector3(startPoint.x * 10, startPoint.y * 10, startPoint.z * 10),  // Scale position
-		new THREE.Vector3(endPoint.x * 10, endPoint.y * 10, endPoint.z * 10)         // Scale position
+		new THREE.Vector3(startPoint.x * 2, startPoint.y * 2, startPoint.z * 2),  // Scale position
+		new THREE.Vector3(endPoint.x * 2, endPoint.y * 2, endPoint.z * 2)         // Scale position
 	]);
 	return new THREE.Line(geometry, lineMaterial);
 }
