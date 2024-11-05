@@ -33,7 +33,8 @@ class Offset {
  * @param {Number} z The z-coordinate of the position.
  */
 class Position {
-    constructor(x, y, z) {
+    // Intentionally reordered to match the meaning in three.js
+    constructor(x, z, y) {
         this.x = Number.parseFloat(x);
         this.y = Number.parseFloat(y);
         this.z = Number.parseFloat(z);
