@@ -1,14 +1,4 @@
 const dataPath = './logs/scenario_log.json';
-function loadData(path) {
-    fetch(path, {
-        mode: 'no-cors'
-    })
-        .then(response => response.json())
-        .then(data => {
-            out = data
-        });
-    return out;
-}
 
 const frequency_ms = 100;
 let old_data = null
