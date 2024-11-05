@@ -1,10 +1,10 @@
-const dataPath = './logs/scenario_log.json';
+const data_path = './logs/scenario_log.json';
 
 const frequency_ms = 100;
 let old_data = null
 
 setInterval(function () {
-    const json_data = loadData(dataPath);
+    const json_data = loadData(data_path);
     if (!json_data || compareArraysTheRightWay(json_data, old_data)) { return; }
 
     const whyline_data = processWhylineData(json_data);

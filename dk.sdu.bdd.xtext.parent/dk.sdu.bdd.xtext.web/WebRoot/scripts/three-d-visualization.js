@@ -1,11 +1,5 @@
-const raw_positions = [
-    [0.0, 0.5, 1.0, 0.3, 0.2, 0.1],  // First position
-    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2],  // Second position
-    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Third position
-    [0.6, 0.8, 1.6, 0.6, 0.5, 0.4],  // Fourth position
-    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Fifth position
-    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2]   // Sixth position
-];
+const positions_filepath = "./logs/position_log.json";
+let raw_positions = loadData(positions_filepath);
 
 /**
  * @type {Position[][]}
