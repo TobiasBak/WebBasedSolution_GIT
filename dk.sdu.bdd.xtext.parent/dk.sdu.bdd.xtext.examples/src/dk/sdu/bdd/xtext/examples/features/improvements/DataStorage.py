@@ -66,9 +66,15 @@ def update_step_duration(step: Step):
     """
     current_json_step = current_json_scenario.step_map[step]
     current_json_step.update_duration(step.duration)
+    if step.status == "passed":
+        current_json_step.mark_as_finished()
+    elif step.status == "failed":
+        current_json_step.mark_failure(True)
     current_json_step.mark_skipped(not step.status == Status.passed)
 
 
-def mark_step_failure(step: Step):
+def mark_step_as_running(step: Step):
     current_json_step = current_json_scenario.step_map[step]
-    current_json_step.mark_failure(True)
+    current_json_step.mark_running()
+
+

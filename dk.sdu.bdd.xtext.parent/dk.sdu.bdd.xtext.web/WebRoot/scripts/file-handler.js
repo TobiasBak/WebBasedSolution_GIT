@@ -5,6 +5,9 @@ function loadData(path) {
     request.send(null);
 
     if (request.status === 200) {
+        if (request.responseText.trim() === "") {
+            return null;
+        }
         return JSON.parse(request.responseText);
     } else {
         throw new Error(`Failed to load data from ${path}`);

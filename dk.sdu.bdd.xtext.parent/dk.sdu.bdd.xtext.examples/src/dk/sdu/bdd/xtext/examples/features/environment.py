@@ -7,9 +7,9 @@ import rtde_receive
 from behave.model import Step
 
 from improvements.DataStorage import update_step_duration, final_save_scenario, create_scenario_in_storage, \
-    mark_step_failure, save_all_scenarios_to_file, clear_scenario_file
-from improvements.LogWriterThread import json_abs_path as position_log_path, LogWriterThread
+    save_all_scenarios_to_file, clear_scenario_file, mark_step_as_running
 from improvements.JsonWriter import write_to_file
+from improvements.LogWriterThread import json_abs_path as position_log_path, LogWriterThread
 
 # Dynamically find the path to Environment.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,8 +45,6 @@ def before_all(context):
     """
 
 
-
-
 def before_feature(context, feature):
     context.controller.moveJ(get_position("default"), get_speed(), get_acceleration())
 
@@ -56,24 +54,17 @@ def after_feature(context, feature):
 
 
 def before_step(context, step: Step):
-    position_thread = LogWriterThread("position_thread", context.receiver)
-    position_thread.start()
-    print("starting thread")
+    mark_step_as_running(step)
+    save_all_scenarios_to_file()
 
+    position_thread = LogWriterThread("position_thread", context.receiver)
     context.custom_thread = position_thread
+    position_thread.start()
 
 
 def after_step(context, step: Step):
     context.custom_thread.stop()
-
-    print()
-    print(f"Step: {step}")
-    print(f"StepStatus: {step.status}")
-    # if passed run DataStorage to store the step in list
-    if step.status == "passed":
-        update_step_duration(step)
-    elif step.status == "failed":
-        mark_step_failure(step)
+    update_step_duration(step)
 
     save_all_scenarios_to_file()
 
@@ -95,7 +86,7 @@ def get_position(name):
 
 
 # Get speed based naming (if not set, returns moderately)
-def get_speed(identifier="moderate"):
+def get_speed(identifier="very slow"):
     speed = data["Speeds"][identifier]["speed"]
     return speed
 

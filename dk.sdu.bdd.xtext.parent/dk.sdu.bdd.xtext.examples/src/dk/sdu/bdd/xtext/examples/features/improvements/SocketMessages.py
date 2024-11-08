@@ -1,7 +1,14 @@
 import json
 from array import array
+from enum import Enum
 
 from behave.model import Step, Scenario
+
+
+class JsonStatus(Enum):
+    FINISHED = "finished"
+    RUNNING = "running"
+    UNTESTED = "untested"
 
 
 class JsonStep:
@@ -10,23 +17,32 @@ class JsonStep:
         self.duration: float = step.duration
         self.failure: bool = False
         self.skipped: bool = True
+        self.status: JsonStatus = JsonStatus.UNTESTED
 
     def dump(self) -> dict:
         return {
             "text": self.text,
             "duration": self.duration,
             "failure": self.failure,
-            "skipped": self.skipped
+            "skipped": self.skipped,
+            "status": self.status.value
         }
 
     def mark_failure(self, failure: bool):
         self.failure = failure
+        self.status = JsonStatus.FINISHED
 
     def mark_skipped(self, skipped: bool):
         self.skipped = skipped
 
     def update_duration(self, duration: float):
         self.duration = duration
+
+    def mark_as_finished(self):
+        self.status = JsonStatus.FINISHED
+
+    def mark_running(self):
+        self.status = JsonStatus.RUNNING
 
 
 class JsonGivenStep(JsonStep):
@@ -53,7 +69,6 @@ class JsonScenario:
 
         self.step_map: dict[Step, JsonStep] = {}
         self.populate_steps(scenario)
-
 
     def populate_steps(self, scenario: Scenario):
         steps: list[Step] = scenario.steps
