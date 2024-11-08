@@ -144,6 +144,7 @@ body {
     min-width: 100px;
     width: 100px;
     min-height: 50px;
+
   }
   
   .whyline-connector {
@@ -187,3 +188,30 @@ body {
   .buttons {
       padding: 20px 20px;
   }
+
+  .node-skipped {
+    border: 3px dotted black;
+    opacity: 0.4;
+  }
+  .connector-skipped {
+    opacity: 0.4;
+  }
+  .whyline-duration {
+    font-size: 0.75em;
+    text-align: center;
+    margin-top: 0.2em;
+  }
+
+
+
+@keyframes pulse {
+  0% {
+    border: 1px solid black;
+    transform: scale(1);
+  }
+
+  100% {
+    border: 5px solid black;
+    transform: scale(1.1);
+  }
+}

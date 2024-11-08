@@ -22,14 +22,24 @@ function compareArraysTheRightWay(a, b){
 
 function createSpecificWhylineObjects(i, whylineData, object, scenarioType) {
     if (i === 0) {
-        whylineData.push({type: "node", value: scenarioType + " " + object.text});
+        whylineData.push({
+            type: "node",
+            value: scenarioType + " " + object.text,
+            status: object.skipped ? "node-skipped" : object.failure ? "node-failed" : "node-passed",
+            dura: object.duration
+        });
     } else {
-        whylineData.push({type: "node", value: "And " + object.text});
+        whylineData.push({
+            type: "node",
+            value: "And " + object.text,
+            status: object.skipped ? "node-skipped" : object.failure ? "node-failed" : "node-passed",
+            dura: object.duration
+        });
     }
     if (object.skipped) {
-        whylineData.push({type: "connector", value: "skipped"});
+        whylineData.push({type: "connector", value: "skipped", status: "connector-skipped"});
     } else {
-        whylineData.push({type: "connector", value: String(!object.failure)});
+        whylineData.push({type: "connector", value: String(!object.failure), status: object.failure ? "failed" : "passed"});
     }
 }
 
@@ -69,10 +79,14 @@ function generateWhyline(whyline_data) {
             $whyline.append($scenarioName);
             $whyline.append($scenario);
         } else if (item.type === "node") {
-            const $node = $('<div>').addClass('whyline-node').text(item.value);
-            $scenario.append($node);
+            const $nodeWrapper = $('<div>').addClass('whyline-node-wrapper');
+            const $node = $('<div>').addClass(['whyline-node',  item.status]).text(item.value);
+            const $duration = $('<p>').addClass('whyline-duration').text(item.dura.toPrecision(2) + "s");
+            $nodeWrapper.append($node);
+            $nodeWrapper.append($duration);
+            $scenario.append($nodeWrapper);
         } else if (item.type === "connector") {
-            const $connector = $('<div>').addClass('whyline-connector');
+            const $connector = $('<div>').addClass(['whyline-connector', item.status]);
             const $text = $('<span>').text(item.value);
             $connector.append($text);
             $scenario.append($connector);
