@@ -144,7 +144,6 @@ body {
     min-width: 100px;
     width: 100px;
     min-height: 50px;
-
   }
   
   .whyline-connector {
@@ -202,16 +201,35 @@ body {
     margin-top: 0.2em;
   }
 
+  .node-failed {
+    border: 0;
+    background: linear-gradient(90deg, red 50%, transparent 50%), linear-gradient(90deg, red 50%, transparent 50%), linear-gradient(0deg, red 50%, transparent 50%), linear-gradient(0deg, red 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 15px 4px, 15px 4px, 4px 15px, 4px 15px;
+    animation: border-rotate 4s infinite;
+  }
 
 
-@keyframes pulse {
+@keyframes border-rotate {
   0% {
-    border: 1px solid black;
-    transform: scale(1);
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
   }
 
   100% {
-    border: 5px solid black;
-    transform: scale(1.1);
+    background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    border: 0.2em solid rgb(0, 255, 255);
+  }
+
+  50% {
+    border: 0.6em solid rgb(0, 0, 255);
+  }
+
+  100% {
+    border: 0.2em solid rgb(0, 255, 255);
   }
 }
