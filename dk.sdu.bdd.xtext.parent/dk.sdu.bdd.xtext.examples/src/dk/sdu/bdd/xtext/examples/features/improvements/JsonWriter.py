@@ -11,8 +11,12 @@ def append_to_json_file(data: dict, filename: str = "scenario_log.json") -> None
     try:
         with open(filename, "r") as file:
             file_content = file.read()
-            if file_content:
-                existing_content = json.loads(file_content)
+            if file_content and file_content != "" and file_content != "\n":
+                try:
+                    existing_content = json.loads(file_content)
+                except json.JSONDecodeError:
+                    print(f"Error decoding JSON: '{file_content}'")
+                    existing_content = []
             else:
                 existing_content = []
     except FileNotFoundError:

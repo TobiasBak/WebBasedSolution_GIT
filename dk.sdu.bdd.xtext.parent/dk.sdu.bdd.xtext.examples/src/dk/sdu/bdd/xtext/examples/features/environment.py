@@ -8,7 +8,7 @@ from behave.model import Step
 
 from improvements.DataStorage import update_step_duration, final_save_scenario, create_scenario_in_storage, \
     mark_step_failure, save_all_scenarios_to_file, clear_scenario_file
-from improvements.LogWriterThread import json_abs_path as position_log_path
+from improvements.LogWriterThread import json_abs_path as position_log_path, LogWriterThread
 from improvements.JsonWriter import write_to_file
 
 # Dynamically find the path to Environment.json
@@ -56,10 +56,16 @@ def after_feature(context, feature):
 
 
 def before_step(context, step: Step):
-    pass
+    position_thread = LogWriterThread("position_thread", context.receiver)
+    position_thread.start()
+    print("starting thread")
+
+    context.custom_thread = position_thread
 
 
 def after_step(context, step: Step):
+    context.custom_thread.stop()
+
     print()
     print(f"Step: {step}")
     print(f"StepStatus: {step.status}")
