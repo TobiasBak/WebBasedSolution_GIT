@@ -59,7 +59,7 @@ function createSpecificWhylineObjects(i, whylineData, object, scenarioType) {
 
 function addDoneNodeToWhylineScenario(whyline_objects, scenario_object) {
     for (const obj of scenario_object.whens || scenario_object.givens || scenario_object.thens) {
-        if (obj.status === "untested") {
+        if (obj.status === "untested" || obj.status === "running") {
             return
         }
     }
