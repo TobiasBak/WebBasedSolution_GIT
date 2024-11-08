@@ -5,11 +5,11 @@ from threading import Thread
 from rtde_receive import RTDEReceiveInterface
 
 try:
-    from JsonWriter import append_to_json_file
+    from JsonWriter import append_to_json_file, write_to_file
     from utils import get_path_to_webroot
 
 except ImportError:
-    from improvements.JsonWriter import append_to_json_file
+    from improvements.JsonWriter import append_to_json_file, write_to_file
     from improvements.utils import get_path_to_webroot
 
 json_filename = "position_log.json"

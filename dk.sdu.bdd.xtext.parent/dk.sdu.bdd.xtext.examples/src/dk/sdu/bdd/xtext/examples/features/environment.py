@@ -6,7 +6,10 @@ import rtde_io
 import rtde_receive
 from behave.model import Step
 
-from improvements.DataStorage import update_step_duration, save_scenario, create_scenario_in_storage, mark_step_failure
+from improvements.DataStorage import update_step_duration, final_save_scenario, create_scenario_in_storage, \
+    mark_step_failure, save_all_scenarios_to_file, clear_scenario_file
+from improvements.LogWriterThread import json_abs_path as position_log_path
+from improvements.JsonWriter import write_to_file
 
 # Dynamically find the path to Environment.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +24,9 @@ with open(json_file_path) as f:
 
 
 def before_all(context):
+    clear_scenario_file()
+    write_to_file("", position_log_path, True)
+
     print("Setting up Environment...")
 
     ip = get_robot_ip()
@@ -37,6 +43,8 @@ def before_all(context):
     context.gripper.set_speed(get_gripper_speed())
     context.gripper.set_force(get_gripper_force())
     """
+
+
 
 
 def before_feature(context, feature):
@@ -61,13 +69,15 @@ def after_step(context, step: Step):
     elif step.status == "failed":
         mark_step_failure(step)
 
+    save_all_scenarios_to_file()
+
 
 def before_scenario(context, scenario):
     create_scenario_in_storage(scenario)
 
 
 def after_scenario(context, scenario):
-    save_scenario(scenario)
+    final_save_scenario(scenario)
 
 
 # Get coordinate-location based on configured name
