@@ -447,6 +447,8 @@ function saveEntities() {
 function runScenario() {
 	console.log("Post to endpoint for run scenario...");
 
+	generateWhyline([]);
+
 
 	fetch("/run-scenario", {
 		method: "POST",

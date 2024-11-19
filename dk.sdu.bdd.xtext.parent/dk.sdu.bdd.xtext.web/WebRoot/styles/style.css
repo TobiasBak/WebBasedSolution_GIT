@@ -227,13 +227,16 @@ body {
 @keyframes pulse {
   0% {
     border: 0.2em solid rgb(0, 255, 255);
+    margin-top: -0.2em;
   }
 
   50% {
     border: 0.6em solid rgb(0, 0, 255);
+    margin: -0.6em;
   }
 
   100% {
     border: 0.2em solid rgb(0, 255, 255);
+    margin: -0.2em;
   }
 }

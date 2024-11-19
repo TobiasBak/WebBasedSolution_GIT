@@ -6,7 +6,7 @@ let old_data = null
 setInterval(function () {
     const json_data = loadData(data_path);
     if (!json_data) {
-        generateWhyline([])
+        return;
     }
     if (!json_data || compareArraysTheRightWay(json_data, old_data)) {
         return;
@@ -28,12 +28,20 @@ function createSpecificWhylineObjects(i, whylineData, object, scenarioType) {
     if (object.status === "untested") {
         return
     }
+    let resultClass;
+    if (object.failure && object.status === "finished") {
+        resultClass = "node-failed";
+    } else if (object.skipped) {
+        resultClass = "node-skipped";
+    } else {
+        resultClass = "node-passed";
+    }
     if (i === 0) {
         whylineData.push({
             type: "node",
             status: object.status,
             value: scenarioType + " " + object.text,
-            result: object.skipped ? "node-skipped" : object.failure ? "node-failed" : "node-passed",
+            result: resultClass,
             dura: object.duration
         });
     } else {
@@ -41,19 +49,22 @@ function createSpecificWhylineObjects(i, whylineData, object, scenarioType) {
             type: "node",
             status: object.status,
             value: "And " + object.text,
-            result: object.skipped ? "node-skipped" : object.failure ? "node-failed" : "node-passed",
+            result: resultClass,
             dura: object.duration
         });
     }
-    if (object.skipped) {
-        whylineData.push({type: "connector", status: object.status, value: "skipped", result: "connector-skipped"});
-    } else if (object.status !== "running") {
-        whylineData.push({
-            type: "connector",
-            status: object.status,
-            value: String(!object.failure),
-            result: object.failure ? "failed" : "passed"
-        });
+
+    if (object.status !== "running") {
+        if (object.skipped) {
+            whylineData.push({type: "connector", status: object.status, value: "skipped", result: "connector-skipped"});
+        } else {
+            whylineData.push({
+                type: "connector",
+                status: object.status,
+                value: String(!object.failure),
+                result: object.failure ? "failed" : "passed"
+            });
+        }
     }
 }
 
@@ -93,30 +104,31 @@ function processWhylineData(objects) {
 
 function generateWhyline(whyline_data) {
     console.log(whyline_data)
-    const $whyline = $('#whyline');
-    let $scenario;
-    $whyline.empty();
+    const whyline = $('#whyline');
+    let scenario;
+    whyline.empty();
     whyline_data.forEach(item => {
         if (item.type === "scenario") {
-            $scenario = $('<div>').attr('id', 'scenario' + item.id).addClass('whyline-scenario');
-            const $scenarioName = $('<h2>').addClass('whyline-scenario-name').text(item.value);
-            $whyline.append($scenarioName);
-            $whyline.append($scenario);
+            scenario = $('<div>').attr('id', 'scenario' + item.id).addClass('whyline-scenario');
+            const scenarioName = $('<h2>').addClass('whyline-scenario-name').text(item.value);
+            whyline.append(scenarioName);
+            whyline.append(scenario);
         } else if (item.type === "node") {
-            const $nodeWrapper = $('<div>').addClass('whyline-node-wrapper');
-            const $node = $('<div>').addClass(['whyline-node', item.status, item.result]).text(item.value);
-            const $duration = $('<p>').addClass('whyline-duration').text(item.dura.toPrecision(2) + "s");
-            $nodeWrapper.append($node);
-            $nodeWrapper.append($duration);
-            $scenario.append($nodeWrapper);
+            const nodeWrapper = $('<div>').addClass('whyline-node-wrapper');
+            const node = $('<div>').addClass(['whyline-node', item.status, item.result]).text(item.value);
+            const duration = $('<p>').addClass('whyline-duration').text(item.dura.toPrecision(2) + "s");
+            nodeWrapper.append(node);
+            nodeWrapper.append(duration);
+            scenario.append(nodeWrapper);
+            $('#whyline')[0].scrollIntoView({behavior: "smooth", block: "end"});
         } else if (item.type === "connector") {
-            const $connector = $('<div>').addClass(['whyline-connector', item.status, item.result]);
-            const $text = $('<span>').text(item.value);
-            $connector.append($text);
-            $scenario.append($connector);
+            const connector = $('<div>').addClass(['whyline-connector', item.status, item.result]);
+            const text = $('<span>').text(item.value);
+            connector.append(text);
+            scenario.append(connector);
         } else if (item.type === "done") {
-            const $done = $('<div>').addClass('whyline-done').text(item.value);
-            $scenario.append($done);
+            const done = $('<div>').addClass('whyline-done').text(item.value);
+            scenario.append(done);
         }
     });
 }
