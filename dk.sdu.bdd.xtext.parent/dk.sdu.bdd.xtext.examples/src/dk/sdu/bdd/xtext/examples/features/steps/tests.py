@@ -1,7 +1,4 @@
-import time
-
 import environment as env
-from improvements.LogWriterThread import LogWriterThread
 from behave import when, given, then
 
 """
@@ -20,26 +17,20 @@ The context.receiver is of type RTDEReceiveInterface
 """
 
 
-
 @given('the position {prep} the robot "{identifier}" is "{position}"')
 def step_given(context, identifier: str, position, prep):
-    position_thread = LogWriterThread("position_thread_given", context.receiver)
-    position_thread.start()
+    desired_pos = env.get_position(position)
+    joint_positions = context.receiver.getActualQ()
 
-    joint_positions = env.get_position(position)
-    desired_pos = context.receiver.getActualQ()
-
-    if context.receiver.getActualQ() != joint_positions or True:
-        context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
-
-    position_thread.stop()
+    if joint_positions != desired_pos or True:
+        context.controller.moveJ(desired_pos, env.get_speed(), env.get_acceleration())
 
 
 def soft_position_comparison(actual_position, desired_position, sensitivity: float = 0.01) -> bool:
     for i in range(len(actual_position)):
-        if check_in_range_sensitivity(actual_position[i], desired_position[i], sensitivity):
-            return True
-    return False
+        if not check_in_range_sensitivity(actual_position[i], desired_position[i], sensitivity):
+            return False
+    return True
 
 
 def check_in_range_sensitivity(actual_pos: float, desired_pos: float, sensitivity: float):
@@ -48,27 +39,20 @@ def check_in_range_sensitivity(actual_pos: float, desired_pos: float, sensitivit
 
 @when('the robot "{identifier}" moves to position "{position}"')
 def step_when(context, identifier: str, position):
-    position_thread = LogWriterThread("position_thread_when", context.receiver)
-    position_thread.start()
-
     joint_position = env.get_position(position)
     controller = context.controller
 
     controller.moveJ(joint_position, env.get_speed(), env.get_acceleration())
 
-    position_thread.stop()
-
 
 @then('the position {prep} the robot "{identifier}" is "{position}"')
 def step_then(context, identifier: str, position, prep):
-    position_thread = LogWriterThread("position_thread_then", context.receiver)
-    position_thread.start()
+    desired_position = env.get_position(position)
+    actual_position = context.receiver.getActualQ()
 
-    joint_positions = env.get_position(position)
+    if not soft_position_comparison(actual_position, desired_position):
+        raise Exception(f"Position is not as expected. Actual: {actual_position}, Desired: {desired_position}")
 
-    context.controller.moveJ(joint_positions, env.get_speed(), env.get_acceleration())
-
-    position_thread.stop()
 
 @given("god {prep}")
 def step_given(context, prep):

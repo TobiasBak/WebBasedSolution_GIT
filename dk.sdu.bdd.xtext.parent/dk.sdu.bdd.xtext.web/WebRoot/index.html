@@ -9,20 +9,19 @@
     <script src="https://unpkg.com/mathjs@11.8.0/lib/browser/math.js"
             integrity="sha384-2NnkIgIitZUPvVF20yEtYm3encP/kCjZ8nxchj4j7cbqmRi9jaVLYz/Pwn/ZgWQ6"
             crossorigin="anonymous"></script>
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
     <script src="webjars/requirejs/2.3.6/require.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="./scripts/file-handler.js" defer></script>
     <script src="./scripts/imports.js" defer></script>
     <script src="./scripts/generators/bdd.js" defer></script>
 
     <script src="./scripts/RobViz/datastructures.js" defer></script>
     <script src="./scripts/RobViz/computeJointPositions.js" defer></script>
     <script src="./scripts/three-d-visualization.js" defer></script>
-    <script src="./scripts/whyline.js" defer></script>
     <script src="./scripts/generators/blockGenerator.js" defer></script>
+    <script src="./scripts/scenario_log_data_converter.js" defer></script>
     <script src="./scripts/script.js" defer></script>
 </head>
 
@@ -56,16 +55,16 @@
             <div class="blockly" id="blockly-editor" style="display: block;"></div>
             <div class="blockly" id="blockly-editor2" style="display: none;"></div>
         </div>
-        <div class="whyline-container">
-            <h2 class="container-header">Whyline</h2>
-            <div id="whyline">
-                <p class="empty-state">Run a scenario to see the WhyLine</p>
-            </div>
-        </div>
         <div class="three-d-container">
             <h2 class="container-header">3D Replay</h2>
             <div id="three-d-container">
                 <p class="empty-state">Run a scenario to see the 3D Replay</p>
+            </div>
+        </div>
+        <div class="whyline-container">
+            <h2 class="container-header">Whyline</h2>
+            <div id="whyline">
+                <p class="empty-state">Run a scenario to see the WhyLine</p>
             </div>
         </div>
     </div>
@@ -73,14 +72,11 @@
         <button id="save-button" value="Save" title="Save">Save</button>
         <input id="file-input" type="file" style="display: none;"/>
         <button id="load-button" value="Load" title="Load">Load</button>
-        <button id="get-ast">Get ast</button>
-        <button id="save-scenario" onclick="saveScenario()">Save
-            Scenario
-        </button>
+        <button id="get-ast">Debug button (console.log("scenario.bdd"))</button>
+        <button id="save-scenario" onclick="saveScenario()">Save Current Tab as sample.bdd</button>
         <!-- <button id="save-entities" onclick="saveEntities()">Save Entities</button> -->
-        <button id="run-scenario" onclick="runScenario()">Run
-            Scenario
-        </button>
+        <button id="run-scenario" onclick="runScenario()">Run sample.bdd</button>
+        <button id="run-and-save" onclick="saveScenario(); runScenario()"> Save & Run</button>
     </div>
 </div>
 </body>

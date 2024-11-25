@@ -121,11 +121,16 @@ body {
   }
   
   #whyline {
-    display: flex;
     width: 100%;
     height: 100%;
     align-items: center;
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
+  }
+
+  .whyline-scenario {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
   }
   
   .whyline-node {
@@ -166,6 +171,13 @@ body {
     padding: 0 5px;
     white-space: nowrap;
   }
+
+  .whyline-done {
+    background: black;
+    color: white;
+    border-radius: 50%;
+    padding: 1em;
+  }
   
   .empty-state {
       font-style: italic;
@@ -175,3 +187,56 @@ body {
   .buttons {
       padding: 20px 20px;
   }
+
+  .node-skipped {
+    border: 3px dotted black;
+    opacity: 0.4;
+  }
+  .connector-skipped {
+    opacity: 0.4;
+  }
+  .whyline-duration {
+    font-size: 0.75em;
+    text-align: center;
+    margin-top: 0.2em;
+  }
+
+  .node-failed {
+    border: 0;
+    background: linear-gradient(90deg, red 50%, transparent 50%), linear-gradient(90deg, red 50%, transparent 50%), linear-gradient(0deg, red 50%, transparent 50%), linear-gradient(0deg, red 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 15px 4px, 15px 4px, 4px 15px, 4px 15px;
+    animation: border-rotate 4s infinite;
+  }
+
+  .running {
+    animation: pulse 2s infinite;
+  }
+
+
+@keyframes border-rotate {
+  0% {
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+  }
+
+  100% {
+    background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    border: 0.2em solid rgb(0, 255, 255);
+    margin-top: -0.2em;
+  }
+
+  50% {
+    border: 0.6em solid rgb(0, 0, 255);
+    margin: -0.6em;
+  }
+
+  100% {
+    border: 0.2em solid rgb(0, 255, 255);
+    margin: -0.2em;
+  }
+}

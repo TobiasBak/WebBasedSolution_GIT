@@ -1,11 +1,5 @@
-const raw_positions = [
-    [0.0, 0.5, 1.0, 0.3, 0.2, 0.1],  // First position
-    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2],  // Second position
-    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Third position
-    [0.6, 0.8, 1.6, 0.6, 0.5, 0.4],  // Fourth position
-    [0.4, 0.7, 1.4, 0.5, 0.4, 0.3],  // Fifth position
-    [0.2, 0.6, 1.2, 0.4, 0.3, 0.2]   // Sixth position
-];
+const positions_filepath = "./logs/position_log.json";
+let raw_positions = loadData(positions_filepath);
 
 /**
  * @type {Position[][]}
@@ -14,11 +8,17 @@ const robotPositionsList = [];
 raw_positions.forEach(position => {
 	robotPositionsList.push(computePositions(position));
 })
+console.log(robotPositionsList);
 
 // Materials
 const jointMaterial = new THREE.MeshPhongMaterial({ color: 0x4a90e2 });
 const lineMaterial = new THREE.LineBasicMaterial({ color: 0x999999 });
 const historyLineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+
+const robotscale = 6;
+const jointBallSize = 0.02 * robotscale;
+const updateInterval = 100; // Update every 1 second
+
 
 function render3DVisualization() {
 	const scene = new THREE.Scene();
@@ -85,11 +85,15 @@ function render3DVisualization() {
 
 	// Camera position
 	camera.position.set(7, 7, 7);
-	camera.lookAt(0, 0, 0);
+
+	const endEffectorPosition = robotPositionsList[0][robotPositionsList[0].length - 1];
+	const cameraTarget = new THREE.Vector3(endEffectorPosition.x * robotscale, robotscale / 2, endEffectorPosition.z * robotscale);
+
+	camera.lookAt(cameraTarget);
 
 	// Animation
 	let lastUpdate = 0;
-	const updateInterval = 1000; // Update every 1 second
+	let angle = 0;
 
 	function animate(timestamp) {
 		requestAnimationFrame(animate);
@@ -99,6 +103,16 @@ function render3DVisualization() {
 			updateRobotPosition();
 			lastUpdate = timestamp;
 		}
+
+
+		// Update camera position to spin around the y-axis
+		const radius = 9; // Distance from the origin
+		camera.position.x = radius * Math.cos(angle) + endEffectorPosition.x;
+		camera.position.z = radius * Math.sin(angle) + endEffectorPosition.z;
+		camera.lookAt(cameraTarget);  // Look at the end effector
+
+		// Increment the angle for the next frame
+		angle += 0.001;
 
 		renderer.render(scene, camera);
 	}
@@ -111,9 +125,9 @@ function render3DVisualization() {
  * @returns {Mesh}
  */
 function createJoint(position) {
-	const geometry = new THREE.SphereGeometry(0.2, 32, 32);  // Sphere size remains unchanged
+	const geometry = new THREE.SphereGeometry(jointBallSize, 32, 32);  // Sphere size remains unchanged
 	const joint = new THREE.Mesh(geometry, jointMaterial);
-	joint.position.set(position.x * 10, position.y * 10, position.z * 10);  // Scale position
+	joint.position.set(position.x * robotscale, position.y * robotscale, position.z * robotscale);  // Scale position
 	return joint;
 }
 
@@ -122,7 +136,7 @@ function createJoint(position) {
  * @returns {Line|*}
  */
 function createHistoryLine(points) {
-	const vectors = points.map(p => new THREE.Vector3(p.x * 10, p.y * 10, p.z * 10));  // Scale position
+	const vectors = points.map(p => new THREE.Vector3(p.x * robotscale, p.y * robotscale, p.z * robotscale));  // Scale position
 	const geometry = new THREE.BufferGeometry().setFromPoints(vectors);
 	return new THREE.Line(geometry, historyLineMaterial);
 }
@@ -134,8 +148,8 @@ function createHistoryLine(points) {
  */
 function createLine(startPoint, endPoint) {
 	const geometry = new THREE.BufferGeometry().setFromPoints([
-		new THREE.Vector3(startPoint.x * 10, startPoint.y * 10, startPoint.z * 10),  // Scale position
-		new THREE.Vector3(endPoint.x * 10, endPoint.y * 10, endPoint.z * 10)         // Scale position
+		new THREE.Vector3(startPoint.x * robotscale, startPoint.y * robotscale, startPoint.z * robotscale),  // Scale position
+		new THREE.Vector3(endPoint.x * robotscale, endPoint.y * robotscale, endPoint.z * robotscale)         // Scale position
 	]);
 	return new THREE.Line(geometry, lineMaterial);
 }

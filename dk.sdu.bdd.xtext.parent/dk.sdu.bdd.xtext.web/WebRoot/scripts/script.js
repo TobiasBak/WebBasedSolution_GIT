@@ -445,13 +445,18 @@ function saveEntities() {
 }
 
 function runScenario() {
+	console.log("Post to endpoint for run scenario...");
+
+	generateWhyline([]);
+
+
 	fetch("/run-scenario", {
 		method: "POST",
 	}).then((response) => {
-		render3DVisualization()
-		renderWhyLine()
 		if (response.ok) {
-			alert("Scenario running...");
+			// alert("Scenario running...");
+			console.log("Scenario running...");
+			render3DVisualization()
 		} else {
 			alert("Error running scenario.");
 		}

@@ -6,7 +6,10 @@ import rtde_io
 import rtde_receive
 from behave.model import Step
 
-from improvements.DataStorage import update_step_duration, save_scenario, create_scenario_in_storage, mark_step_failure
+from improvements.DataStorage import update_step_duration, final_save_scenario, create_scenario_in_storage, \
+    save_all_scenarios_to_file, clear_scenario_file, mark_step_as_running
+from improvements.JsonWriter import write_to_file
+from improvements.LogWriterThread import json_abs_path as position_log_path, LogWriterThread
 
 # Dynamically find the path to Environment.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +24,9 @@ with open(json_file_path) as f:
 
 
 def before_all(context):
+    clear_scenario_file()
+    write_to_file("", position_log_path, True)
+
     print("Setting up Environment...")
 
     ip = get_robot_ip()
@@ -48,18 +54,19 @@ def after_feature(context, feature):
 
 
 def before_step(context, step: Step):
-    pass
+    mark_step_as_running(step)
+    save_all_scenarios_to_file()
+
+    position_thread = LogWriterThread("position_thread", context.receiver)
+    context.custom_thread = position_thread
+    position_thread.start()
 
 
 def after_step(context, step: Step):
-    print()
-    print(f"Step: {step}")
-    print(f"StepStatus: {step.status}")
-    # if passed run DataStorage to store the step in list
-    if step.status == "passed":
-        update_step_duration(step)
-    elif step.status == "failed":
-        mark_step_failure(step)
+    context.custom_thread.stop()
+    update_step_duration(step)
+
+    save_all_scenarios_to_file()
 
 
 def before_scenario(context, scenario):
@@ -67,7 +74,7 @@ def before_scenario(context, scenario):
 
 
 def after_scenario(context, scenario):
-    save_scenario(scenario)
+    final_save_scenario(scenario)
 
 
 # Get coordinate-location based on configured name
@@ -79,7 +86,7 @@ def get_position(name):
 
 
 # Get speed based naming (if not set, returns moderately)
-def get_speed(identifier="moderate"):
+def get_speed(identifier="very slow"):
     speed = data["Speeds"][identifier]["speed"]
     return speed
 

@@ -12,7 +12,7 @@ def readFile():
     
     # Construct the path to the tests.feature file
     feature_file_path = os.path.abspath(os.path.join(current_dir , os.pardir))
-    feature_file_path = os.path.join(feature_file_path, "hello_tests.feature")
+    feature_file_path = os.path.join(feature_file_path, "tests.feature")
     # Check if the file exists
     if not os.path.exists(bdd_file_path):
         print(f"File not found: {bdd_file_path}")
